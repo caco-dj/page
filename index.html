@@ -241,10 +241,32 @@
         .nav-next { right: 20px; }
 
         @media (max-width: 768px) {
-            .gallery-nav { display: none; }
+            .gallery-nav {
+                display: flex;
+                width: 42px;
+                height: 42px;
+                background: rgba(255,255,255,0.06);
+                color: var(--accent-color);
+                border: 1px solid rgba(255,255,255,0.08);
+                border-radius: 50%;
+                font-size: 1rem;
+                align-items: center;
+                justify-content: center;
+                z-index: 20;
+                backdrop-filter: blur(4px);
+                transition: transform 0.18s ease, background 0.18s ease;
+            }
+            .gallery-nav:hover { transform: scale(1.05); background: rgba(255,255,255,0.12); color: #000; }
+            /* posicionamento específico para prev / next para garantir margem nas laterais */
+            .nav-prev { left: 12px; right: auto; }
+            .nav-next { right: 12px; left: auto; }
+            /* reduz tamanho das imagens da galeria e altura para mobile (já existem regras, mantive compatibilidade) */
+            .gallery-item { min-width: 250px; height: 300px; }
+            .gallery-container { height: 300px; padding-bottom: 8px; }
+            .gallery-nav i { font-size: 0.85rem; }
             /* No mobile, pode quebrar linha se faltar espaço */
             .bio-actions-container { flex-wrap: wrap; gap: 20px; justify-content: center; }
-        }
+         }
 
         /* --- GRIDS (Logos & Artists) --- */
         .grid-section { padding: 80px 5%; text-align: center; position: relative; }
@@ -561,6 +583,16 @@
                         galleryStrip.scrollLeft += setWidth; // Teletransporta de volta pro meio
                     }
                 });
+
+                // --- ADICIONADO: evita scroll indesejado ao passar o mouse sobre a galeria ---
+                // Converte scroll vertical em deslocamento horizontal e previne o comportamento padrão
+                galleryStrip.addEventListener('wheel', (e) => {
+                    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                        galleryStrip.scrollLeft += e.deltaY;
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+                // -------------------------------------------------------------------------
 
                 // Botões de Navegação
                 // Movem exatamente a largura de um item
