@@ -209,6 +209,10 @@
             scrollbar-width: none;
             cursor: grab;
             padding-left: 50%;
+            /* Permite apenas pan horizontal em touch, evita scroll vertical dentro da galeria */
+            touch-action: pan-x;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
         }
         
         .gallery-strip::-webkit-scrollbar { display: none; }
@@ -220,13 +224,37 @@
             position: relative;
             flex-shrink: 0;
             user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* garante que imagem não "escape" nem permita scroll vertical interno */
         }
 
         .gallery-item img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.5s ease; pointer-events: none;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Mantém comportamento atual no desktop */
+            transition: transform 0.5s ease;
+            pointer-events: none;
+            display: block;
+            -webkit-user-drag: none; /* evita arrastar imagem no mobile */
+            user-drag: none;
+            user-select: none;
         }
         .gallery-item:hover img { transform: scale(1.1); }
+
+        /* --- Ajuste ESPECÍFICO PARA MOBILE: mostrar a imagem inteira (contain) e evitar pan vertical */
+        @media (max-width: 768px) {
+            .gallery-item { min-width: 250px; height: 300px; }
+            .gallery-container { height: 300px; padding-bottom: 8px; }
+            .gallery-item img {
+                object-fit: contain; /* mostra a imagem inteira sem cortar */
+                max-height: 100%;
+                transform: none; /* evita zoom hover estranho no mobile */
+            }
+            .gallery-strip { touch-action: pan-x; } /* reforça pan horizontal apenas */
+            .gallery-nav { /* mantém setas visíveis no mobile (já presente) */ }
+        }
 
         /* Botões Navegação */
         .gallery-nav {
@@ -438,12 +466,12 @@
             <button class="gallery-nav nav-next"><i class="fas fa-chevron-right"></i></button>
             
             <div class="gallery-strip" id="galleryStrip">
-                <div class="gallery-item"><img src="page/caco1.JPG" alt="Show"></div>
-                <div class="gallery-item"><img src="page/caco4.png" alt="Energy"></div>
-                <div class="gallery-item"><img src="page/caco10.jpeg" alt="Crowd"></div>
-                <div class="gallery-item"><img src="page/caco2.JPG" alt="Vibe"></div>
-                <div class="gallery-item"><img src="page/caco9.JPG" alt="Party"></div>
-                <div class="gallery-item"><img src="page/caco3.JPEG" alt="Hands Up"></div>
+                <div class="gallery-item"><img src="page/caco1.JPG" alt="Show" draggable="false"></div>
+                <div class="gallery-item"><img src="page/caco4.png" alt="Energy" draggable="false"></div>
+                <div class="gallery-item"><img src="page/caco10.jpeg" alt="Crowd" draggable="false"></div>
+                <div class="gallery-item"><img src="page/caco2.JPG" alt="Vibe" draggable="false"></div>
+                <div class="gallery-item"><img src="page/caco9.JPG" alt="Party" draggable="false"></div>
+                <div class="gallery-item"><img src="page/caco3.JPEG" alt="Hands Up" draggable="false"></div>
             </div>
         </div>
     </section>
