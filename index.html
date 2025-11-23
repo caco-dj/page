@@ -72,14 +72,24 @@
         }
         .loader-content img { width: 150px; animation: pulse 1.5s infinite alternate; }
 
-        /* --- HERO --- */
+        /* --- HERO (CORRIGIDO PARA IOS) --- */
         .hero {
             height: 100vh; width: 100%; position: relative;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            background-image: url('page/banner.JPEG');
-            background-size: cover; background-position: center; background-attachment: fixed;
             overflow: hidden;
+            /* Propriedades de background removidas daqui para evitar o zoom bug no iOS */
         }
+        
+        /* Nova classe para a imagem de fundo */
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('page/banner.JPEG');
+            background-size: cover; 
+            background-position: center;
+            z-index: 0;
+        }
+
         .hero::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, rgba(0,0,0,0.3), #0a0a0a); z-index: 1;
@@ -205,8 +215,9 @@
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch; /* Rolagem nativa suave no iOS */
             
-            /* Configuração Crítica de Toque */
-            touch-action: pan-x;    /* Diz ao navegador: "Aqui só rola de lado. Vertical é com a página." */
+            /* Configuração Crítica de Toque - CORRIGIDA */
+            /* pan-y adicionado para permitir scroll vertical na página */
+            touch-action: pan-x pan-y;
             
             padding: 20px 5%; /* Padding vertical evita cortes de sombra */
             width: 100%;
@@ -386,6 +397,8 @@
     </div>
 
     <header class="hero">
+        <div class="hero-bg"></div>
+        
         <div class="hero-content">
             <img src="page/logo.png" alt="CACO DJ" class="hero-logo">
             <p class="slogan">FEEL THIS ENERGY</p>
@@ -555,7 +568,7 @@
         window.addEventListener('scroll', revealOnScroll);
         revealOnScroll();
 
-        // LOGICA SIMPLIFICADA DE GALERIA (SEM LOOP INFINITO, SEM BUGS)
+        // LOGICA SIMPLIFICADA DE GALERIA
         document.addEventListener('DOMContentLoaded', () => {
             const track = document.getElementById('galleryTrack');
             const prevBtn = document.querySelector('.nav-prev');
