@@ -77,10 +77,8 @@
             height: 100vh; width: 100%; position: relative;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             overflow: hidden;
-            /* Propriedades de background removidas daqui para evitar o zoom bug no iOS */
         }
         
-        /* Nova classe para a imagem de fundo */
         .hero-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -184,12 +182,11 @@
             text-shadow: 0 0 15px var(--accent-color);
         }
 
-        /* --- GALLERY CAROUSEL (CORRIGIDO: SCROLL SNAP + TOUCH ACTION) --- */
+        /* --- GALLERY CAROUSEL --- */
         .gallery-section {
             padding: 60px 0;
             background: #000;
             position: relative;
-            /* Garante que o container não "vaze" largura */
             width: 100%;
             overflow: hidden; 
         }
@@ -197,7 +194,7 @@
         .gallery-container {
             position: relative;
             width: 100%;
-            max-width: 1400px; /* Limite para telas ultra-wide */
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
             align-items: center;
@@ -207,48 +204,41 @@
         .gallery-track {
             display: flex;
             gap: 20px;
-            
-            /* Configuração Crítica de Scroll */
-            overflow-x: auto;       /* Permite rolar para os lados */
-            overflow-y: hidden;     /* BLOQUEIA rolar para cima/baixo DENTRO do carrossel */
-            scroll-snap-type: x mandatory; /* Faz a imagem "grudar" no centro */
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch; /* Rolagem nativa suave no iOS */
-            
-            /* Configuração Crítica de Toque - CORRIGIDA */
-            /* pan-y adicionado para permitir scroll vertical na página */
+            -webkit-overflow-scrolling: touch;
             touch-action: pan-x pan-y;
-            
-            padding: 20px 5%; /* Padding vertical evita cortes de sombra */
+            padding: 20px 5%;
             width: 100%;
-            scrollbar-width: none; /* Firefox */
+            scrollbar-width: none;
         }
 
         .gallery-track::-webkit-scrollbar {
-            display: none; /* Chrome/Safari */
+            display: none;
         }
 
         .gallery-item {
-            flex: 0 0 auto; /* Impede que a imagem encolha */
-            width: 320px;   /* Largura padrão desktop */
+            flex: 0 0 auto;
+            width: 320px;
             height: 450px;
             position: relative;
-            scroll-snap-align: center; /* Onde a imagem deve parar */
+            scroll-snap-align: center;
             border-radius: 8px;
             overflow: hidden;
             transition: transform 0.3s ease;
-            background: #111; /* Fundo caso a imagem demore a carregar */
+            background: #111;
         }
 
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            pointer-events: none; /* Evita arrastar o "fantasma" da imagem */
+            pointer-events: none;
             user-select: none;
         }
 
-        /* Desktop Hover Effect */
         @media (hover: hover) {
             .gallery-item:hover {
                 transform: scale(1.05);
@@ -257,7 +247,6 @@
             }
         }
 
-        /* Botões Navegação */
         .gallery-nav {
             position: absolute; top: 50%; transform: translateY(-50%);
             width: 50px; height: 50px;
@@ -273,36 +262,20 @@
         .nav-prev { left: 20px; }
         .nav-next { right: 20px; }
 
-        /* Mobile Styles Específicos */
         @media (max-width: 768px) {
             h2 { font-size: 1.8rem; }
             .hero-logo { width: 90%; }
             .bio-section { flex-direction: column; }
             .bio-actions-container { flex-wrap: wrap; gap: 20px; justify-content: center; }
             
-            /* Ajuste da Galeria no Mobile */
-            .gallery-track {
-                gap: 15px;
-                padding: 0 20px; /* Remove padding vertical excessivo no mobile */
-            }
-            .gallery-item {
-                width: 85vw; /* Ocupa 85% da tela para dar dica que tem mais */
-                height: 400px;
-            }
-            .gallery-item img {
-                object-fit: cover;
-            }
-            .gallery-nav {
-                /* Opcional: Esconder setas no mobile já que o touch é intuitivo */
-                /* display: none; */ 
-                width: 40px; height: 40px;
-                background: rgba(0,0,0,0.6);
-            }
+            .gallery-track { gap: 15px; padding: 0 20px; }
+            .gallery-item { width: 85vw; height: 400px; }
+            .gallery-nav { width: 40px; height: 40px; background: rgba(0,0,0,0.6); }
             .nav-prev { left: 10px; }
             .nav-next { right: 10px; }
         }
 
-        /* --- GRIDS (Logos & Artists) --- */
+        /* --- GRIDS --- */
         .grid-section { padding: 80px 5%; text-align: center; position: relative; }
         .logos-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -364,16 +337,11 @@
             background: #fff; transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
         }
-        .social-links {
-            margin-top: 40px; display: flex; gap: 30px;
-            font-size: 1.5rem; justify-content: center; width: 100%;
-        }
-        .social-links a { color: #fff; transition: 0.3s; }
-        .social-links a:hover { color: var(--accent-color); transform: scale(1.2); }
 
         footer {
-            text-align: center; padding: 20px; font-size: 0.8rem;
+            text-align: center; padding: 40px 20px; font-size: 0.8rem;
             color: #444; background: #000;
+            display: flex; flex-direction: column; align-items: center;
         }
         
         @keyframes float {
@@ -451,6 +419,9 @@
                 <div class="social-icons-group">
                     <a href="https://www.instagram.com/cacodiefen/" target="_blank" class="social-icon-link" title="Instagram">
                         <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="mailto:contato.djcaco@gmail.com" class="social-icon-link" title="E-mail">
+                        <i class="fas fa-envelope"></i>
                     </a>
                 </div>
             </div>
@@ -540,6 +511,14 @@
     </section>
 
     <footer>
+        <div class="social-icons-group" style="justify-content: center; margin-bottom: 20px;">
+            <a href="https://www.instagram.com/cacodiefen/" target="_blank" class="social-icon-link" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="mailto:contato.djcaco@gmail.com" class="social-icon-link" title="E-mail">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
         &copy; 2025 CACO. Todos os direitos reservados.
     </footer>
 
